@@ -1,0 +1,8 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+catalog:
+  tailwindcss: ^3.4.17
+  postcss: ^8.4.31
+  tailwind-merge: ^3.0.2

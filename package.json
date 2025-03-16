@@ -1,27 +1,30 @@
 {
   "name": "trabajo-veterinaria",
   "version": "0.1.0",
+  "packageManager": "pnpm@10.6.2",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "next lint",
+    "analyze": "turbo analyze",
+    "clean": "git clean -xdf node_modules",
+    "clean:all": "git clean -xdf .turbo node_modules package-lock.json",
+    "migrate": "cd packages/database && npx prisma format && npx prisma generate && npx prisma db push",
+    "compose:up": "cd packages/database && docker compose up -d && cd ../..",
+    "db:auth": "npx @better-auth/cli generate --output ./packages/database/prisma/schema.prisma --config ./packages/auth/server.ts"
   },
-  "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "@turbo/gen": "^2.4.4",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
-    "@eslint/eslintrc": "^3"
-  }
+    "turbo": "^2.4.4",
+    "typescript": "^5"
+  },
+  "type": "module"
 }
