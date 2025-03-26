@@ -14,7 +14,7 @@ export interface OrganizationAvatarClassNames {
 }
 
 export interface OrganizationAvatarProps {
-    organization?: Organization
+    organization: Organization | null
     classNames?: OrganizationAvatarClassNames
 }
 

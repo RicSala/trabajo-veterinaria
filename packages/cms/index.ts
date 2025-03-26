@@ -59,6 +59,9 @@ export const blog = {
         items: postMetaFragment,
       },
     },
+    next: {
+      revalidate: false,
+    },
   }),
 
   latestPostQuery: fragmentOn('Query', {
@@ -69,6 +72,9 @@ export const blog = {
         },
         item: postFragment,
       },
+    },
+    next: {
+      revalidate: false,
     },
   }),
 
@@ -82,6 +88,9 @@ export const blog = {
         },
         item: postFragment,
       },
+    },
+    next: {
+      revalidate: false,
     },
   }),
 
