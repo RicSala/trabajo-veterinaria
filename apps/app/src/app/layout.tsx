@@ -3,6 +3,7 @@ import '@repo/design-system/styles/globals.css';
 import { Providers } from '@repo/auth/provider';
 import { primaryFont } from '@repo/design-system/lib/fonts';
 import QueryProvider from '@/src/providers/QueryProvider';
+import { Toolbar } from '@repo/cms/components/toolbar';
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -20,6 +21,7 @@ export default function RootLayout({
         <QueryProvider>
           <Providers>{children}</Providers>
         </QueryProvider>
+        <Toolbar />
       </body>
     </html>
   );
