@@ -1,0 +1,26 @@
+{
+  "Auth": {
+    "account": "Account",
+    "alreadyHaveAnAccount": "Already have an account?",
+    "dontHaveAnAccount": "Don't have an account?",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "signOut": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "resetPassword": "Reset password",
+    "newPassword": "New password",
+    "name": "Name",
+    "signUpDescription": "Create an account to interact with us.",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Your email",
+    "signUpAction": "Sign up",
+    "signInAction": "Sign in",
+    "changePassword": "Change password",
+    "passwordPlaceholder": "Your password",
+    "newPasswordPlaceholder": "New password",
+    "changePasswordInstructions": "Please use 8 characters at minimum.",
+    "changePasswordDescription": "Please enter your old password and your new password."
+  }
+}

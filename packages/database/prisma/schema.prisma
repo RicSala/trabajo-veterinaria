@@ -8,13 +8,12 @@ generator client {
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String
   email         String
   emailVerified Boolean
@@ -25,6 +24,7 @@ model User {
   accounts      Account[]
   members       Member[]
   invitations   Invitation[]
+  Subscription  Subscription[]
 
   @@unique([email])
 }
@@ -76,14 +76,15 @@ model Verification {
 }
 
 model Organization {
-  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name        String
-  slug        String?
-  logo        String?
-  createdAt   DateTime
-  metadata    String?
-  members     Member[]
-  invitations Invitation[]
+  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String
+  slug         String?
+  logo         String?
+  createdAt    DateTime
+  metadata     String?
+  members      Member[]
+  invitations  Invitation[]
+  Subscription Subscription[]
 
   @@unique([slug])
   @@map("organization")
@@ -103,7 +104,7 @@ model Member {
 
 model Invitation {
   id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  organizationId String
+  organizationId String       @db.Uuid
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   email          String
   role           String?
@@ -113,4 +114,39 @@ model Invitation {
   user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
 
   @@map("invitation")
+}
+
+model Subscription {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // The subscription can be for a user or an organization
+  userId         String?       @db.Uuid
+  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String?       @db.Uuid
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  seatCount      Int           @default(1)
+
+  membershipId String? @db.Uuid
+
+  isCancelAtEndPeriod  Boolean            @default(false)
+  stripeCustomerId     String
+  stripeSubscriptionId String             @unique
+  stripePriceId        String
+  status               SubscriptionStatus
+  currentPeriodEnd     DateTime?          @db.Timestamptz(3)
+  cancelAt             DateTime?          @db.Timestamptz(3)
+  canceledAt           DateTime?          @db.Timestamptz(3)
+}
+
+enum SubscriptionStatus {
+  incomplete
+  incomplete_expired
+  trialing
+  active
+  past_due
+  canceled
+  unpaid
+  paused
 }

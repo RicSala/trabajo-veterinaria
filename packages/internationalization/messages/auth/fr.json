@@ -1,0 +1,26 @@
+{
+  "Auth": {
+    "account": "Compte",
+    "alreadyHaveAnAccount": "Vous avez déjà un compte?",
+    "dontHaveAnAccount": "Vous n'avez pas de compte?",
+    "signIn": "Connexion",
+    "signUp": "Inscription",
+    "signOut": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié?",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "newPassword": "Nouveau mot de passe",
+    "name": "Nom",
+    "signUpDescription": "Créez un compte pour interagir avec nous.",
+    "namePlaceholder": "Votre nom",
+    "emailPlaceholder": "Votre email",
+    "signUpAction": "Inscription",
+    "signInAction": "Connexion",
+    "changePassword": "Changer le mot de passe",
+    "passwordPlaceholder": "Votre mot de passe",
+    "newPasswordPlaceholder": "Nouveau mot de passe",
+    "changePasswordInstructions": "S'il vous plaît, utilisez au moins 8 caractères.",
+    "changePasswordDescription": "Veuillez entrer votre ancien mot de passe et votre nouveau mot de passe."
+  }
+}
