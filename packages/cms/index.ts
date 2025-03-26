@@ -59,9 +59,9 @@ export const blog = {
         items: postMetaFragment,
       },
     },
-    next: {
-      revalidate: false,
-    },
+    // next: {
+    //   revalidate: false,
+    // },
   }),
 
   latestPostQuery: fragmentOn('Query', {
@@ -73,9 +73,9 @@ export const blog = {
         item: postFragment,
       },
     },
-    next: {
-      revalidate: false,
-    },
+    // next: {
+    //   revalidate: false,
+    // },
   }),
 
   postQuery: (slug: string) => ({
@@ -89,9 +89,9 @@ export const blog = {
         item: postFragment,
       },
     },
-    next: {
-      revalidate: false,
-    },
+    // next: {
+    //   revalidate: false,
+    // },
   }),
 
   getPosts: async (): Promise<PostMeta[]> => {
