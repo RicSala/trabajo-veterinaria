@@ -62,18 +62,14 @@ const OrganizationSwitcherContainer = (props: SwitcherProps) => {
     
     const { data: organizations, isPending: isOrganizationsPending } =
     authClient.useListOrganizations()
-    
-    // const { useSession } = hooks
     const { data: sessionData, isPending: sessionPending, refetch: refetchSession } = authClient.useSession()
-    // @ts-ignore
-    const activeOrganizationId = sessionData?.session?.activeOrganizationId
+    const {data:activeOrganization} = authClient.useActiveOrganization()
     const user = sessionData?.user as User
-    const activeOrganization = organizations?.find((o) => o.id === activeOrganizationId)
     const isPending = sessionPending || isOrganizationsPending
 
-    useEffect(() => {
-        setUserMode(!activeOrganizationId)
-    }, [activeOrganizationId])
+      useEffect(() => {
+          setUserMode(!activeOrganization)
+      }, [activeOrganization])
 
     const setOrganization = useCallback(
         (organizationId: string) => {
@@ -102,7 +98,7 @@ const OrganizationSwitcherContainer = (props: SwitcherProps) => {
             user={user}
             userMode={userMode}
             organizations={organizations || []}
-            activeOrganization={activeOrganization}
+            activeOrganization={activeOrganization as Organization}
             onSelectOrganization={setOrganization}
             onSelectUserMode={handleUserMode}
             localization={localization}
@@ -126,7 +122,7 @@ const OrganizationSwitcherPresentation = ({
     user: User | undefined
     userMode: boolean
     organizations: Organization[]
-    activeOrganization: Organization | undefined
+    activeOrganization: Organization | null
     onSelectOrganization: (id: string) => void
     onSelectUserMode: () => void
     onOrganizationChange?: (id: string | null) => void | Promise<void>

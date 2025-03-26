@@ -1,13 +1,7 @@
-import { blog } from '@repo/cms';
-import { Feed } from '@repo/cms/components/feed';
-import { Image } from '@repo/cms/components/image';
-import { cn } from '@repo/design-system/lib/utils';
 import type { Blog, WithContext } from '@repo/seo/json-ld';
 import { JsonLd } from '@repo/seo/json-ld';
 import { createMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
-import { draftMode } from 'next/headers';
-import Link from 'next/link';
 
 const title = 'Blog';
 const description = 'Thoughts, ideas, and opinions.';
@@ -17,7 +11,7 @@ export const dynamic = 'error';
 export const metadata: Metadata = createMetadata({ title, description });
 
 const BlogIndex = async () => {
-  const draft = await draftMode();
+  // const draft = await draftMode();
 
   const jsonLd: WithContext<Blog> = {
     '@type': 'Blog',
@@ -35,7 +29,14 @@ const BlogIndex = async () => {
             </h4>
           </div>
           <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
-            <Feed queries={[blog.postsQuery]} draft={draft.isEnabled}>
+            {/* <Feed
+              queries={[blog.postsQuery]}
+              draft={draft.isEnabled}
+              next={{
+                revalidate: false,
+              }}
+              cache='no-store'
+            >
               {async ([data]) => {
                 'use server';
 
@@ -78,7 +79,7 @@ const BlogIndex = async () => {
                   </Link>
                 ));
               }}
-            </Feed>
+            </Feed> */}
           </div>
         </div>
       </div>

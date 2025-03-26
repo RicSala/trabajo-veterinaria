@@ -2,6 +2,9 @@
 
 import { PrismaClient } from './generated/client';
 import { keys } from './keys';
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import ws from 'ws';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
@@ -12,14 +15,11 @@ const useNeonAdapter = () => {
 };
 
 // Create the appropriate Prisma client based on the environment
-const createPrismaClient = async () => {
+const createPrismaClient = () => {
   if (useNeonAdapter()) {
     // For Neon database (production or if explicitly configured)
-    const { Pool, neonConfig } = await import('@neondatabase/serverless');
-    const { PrismaNeon } = await import('@prisma/adapter-neon');
-    const ws = await import('ws');
 
-    neonConfig.webSocketConstructor = ws.default;
+    neonConfig.webSocketConstructor = ws;
     const pool = new Pool({ connectionString: keys().DATABASE_URL });
     const adapter = new PrismaNeon(pool);
 

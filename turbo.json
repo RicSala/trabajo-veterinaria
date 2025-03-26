@@ -4,9 +4,12 @@
   "envMode": "loose",
 
   "tasks": {
+    "start": {
+      "dependsOn": ["^start"]
+    },
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": ["^db:generate", "^build"],
+      "outputs": [".next/**", "!.next/cache/**", ".basehub/**"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
@@ -16,6 +19,16 @@
       "cache": false
     },
     "clean": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:deploy": {
+      "cache": false
+    },
+    "db:generate": {
       "cache": false
     }
   }
