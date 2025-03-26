@@ -150,17 +150,17 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
 
 export default BlogPost;
 
-const CustomComponents = ({
-  color,
-  title,
-}: {
-  color: string;
-  title: string;
-}) => {
-  return (
-    <div>
-      <h1>{title}</h1>
-      <p>{color}</p>
-    </div>
-  );
-};
+// const CustomComponents = ({
+//   color,
+//   title,
+// }: {
+//   color: string;
+//   title: string;
+// }) => {
+//   return (
+//     <div>
+//       <h1>{title}</h1>
+//       <p>{color}</p>
+//     </div>
+//   );
+// };
