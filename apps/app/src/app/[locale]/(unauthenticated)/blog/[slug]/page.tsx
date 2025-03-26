@@ -2,8 +2,17 @@
 import { env } from '@/env';
 // import { ArrowLeftIcon } from '@radix-ui/react-icons';
 import { blog } from '@repo/cms';
+import { Feed } from '@repo/cms/components/feed';
+import { JsonLd } from '@repo/seo/json-ld';
 import { createMetadata } from '@repo/seo/metadata';
 import type { Metadata } from 'next';
+import { draftMode } from 'next/headers';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { ArrowLeftIcon } from 'lucide-react';
+import { Image } from '@repo/cms/components/image';
+import { Body } from '@repo/cms/components/body';
+import { CodeBlock } from '@repo/cms/components/code-block';
 // import Balancer from 'react-wrap-balancer';
 
 export const dynamic = 'error';
@@ -38,110 +47,114 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async (): Promise<{ slug: string }[]> => {
   const posts = await blog.getPosts();
+  console.log(
+    'from static params',
+    posts.map(({ _slug }) => _slug)
+  );
 
   return posts.map(({ _slug }) => ({ slug: _slug }));
 };
 
 const BlogPost = async ({ params }: BlogPostProperties) => {
   const { slug } = await params;
-  // const draft = await draftMode();
+  const draft = await draftMode();
+  const posts = await blog.getPosts();
+  const postslugs = posts.map((post) => post._slug);
+  console.log('from slug page', postslugs);
 
   return (
-    <>
-      <h1>{slug}</h1>
-      <h1>{url.toString()}</h1>
-    </>
-    // <Feed queries={[blog.postQuery(slug)]} draft={draft.isEnabled}>
-    //   {/* biome-ignore lint/suspicious/useAwait: "Server Actions must be async" */}
-    //   {async ([data]) => {
-    //     'use server';
+    <Feed queries={[blog.postQuery(slug)]} draft={draft.isEnabled}>
+      {/* biome-ignore lint/suspicious/useAwait: "Server Actions must be async..." */}
+      {async ([data]) => {
+        'use server';
 
-    //     const page = data.blog.posts.item;
+        const page = data.blog.posts.item;
 
-    //     if (!page) {
-    //       notFound();
-    //     }
+        if (!page) {
+          notFound();
+        }
 
-    //     return (
-    //       <>
-    //         <JsonLd
-    //           code={{
-    //             '@type': 'BlogPosting',
-    //             '@context': 'https://schema.org',
-    //             datePublished: page.date,
-    //             description: page.description,
-    //             mainEntityOfPage: {
-    //               '@type': 'WebPage',
-    //               '@id': new URL(`/blog/${page._slug}`, url).toString(),
-    //             },
-    //             headline: page._title,
-    //             image: page.image.url,
-    //             dateModified: page.date,
-    //             author: page.authors.at(0)?._title,
-    //             isAccessibleForFree: true,
-    //           }}
-    //         />
-    //         <div className='container py-16'>
-    //           <Link
-    //             className='mb-4 inline-flex items-center gap-1 text-muted-foreground text-sm focus:underline focus:outline-none'
-    //             href='/blog'
-    //           >
-    //             <ArrowLeftIcon className='h-4 w-4' />
-    //             Back to Blog
-    //           </Link>
-    //           <div className='mt-16 flex flex-col items-start gap-8 sm:flex-row'>
-    //             <div className='sm:flex-1'>
-    //               <div className='prose prose-neutral dark:prose-invert max-w-none'>
-    //                 <h1 className='scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl text-red-400'>
-    //                   {/* <Balancer> */}
-    //                   {page._title}
-    //                   {/* </Balancer> */}
-    //                 </h1>
-    //                 <p className='leading-7 [&:not(:first-child)]:mt-6'>
-    //                   {/* <Balancer> */}
-    //                   {page.description}
-    //                   {/* </Balancer> */}
-    //                 </p>
-    //                 {page.image ? (
-    //                   <Image
-    //                     src={page.image.url}
-    //                     width={page.image.width}
-    //                     height={page.image.height}
-    //                     alt={page.image.alt ?? ''}
-    //                     className='my-16 h-full w-full rounded-xl'
-    //                     priority
-    //                   />
-    //                 ) : undefined}
-    //                 <div className='mx-auto max-w-prose'>
-    //                   <Body
-    //                     content={page.body.json.content}
-    //                     components={{
-    //                       pre: ({ code, language }) => {
-    //                         return (
-    //                           <CodeBlock
-    //                             theme='vesper'
-    //                             snippets={[{ code, language }]}
-    //                           />
-    //                         );
-    //                       },
-    //                     }}
-    //                   />
-    //                 </div>
-    //               </div>
-    //             </div>
-    //             <div className='sticky top-24 hidden shrink-0 md:block'>
-    //               {/* <Sidebar
-    //                 toc={<TableOfContents data={page.body.json.toc} />}
-    //                 readingTime={`${page.body.readingTime} min read`}
-    //                 date={new Date(page.date)}
-    //               /> */}
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </>
-    //     );
-    //   }}
-    // </Feed>
+        return (
+          <>
+            w
+            <JsonLd
+              code={{
+                '@type': 'BlogPosting',
+                '@context': 'https://schema.org',
+                datePublished: page.date,
+                description: page.description,
+                mainEntityOfPage: {
+                  '@type': 'WebPage',
+                  '@id': new URL(`/blog/${page._slug}`, url).toString(),
+                },
+                headline: page._title,
+                image: page.image.url,
+                dateModified: page.date,
+                author: page.authors.at(0)?._title,
+                isAccessibleForFree: true,
+              }}
+            />
+            <div className='container py-16'>
+              <Link
+                className='mb-4 inline-flex items-center gap-1 text-muted-foreground text-sm focus:underline focus:outline-none'
+                href='/blog'
+              >
+                <ArrowLeftIcon className='h-4 w-4' />
+                Back to Blog
+              </Link>
+              <div className='mt-16 flex flex-col items-start gap-8 sm:flex-row'>
+                <div className='sm:flex-1'>
+                  <div className='prose prose-neutral dark:prose-invert max-w-none'>
+                    <h1 className='scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl text-red-400'>
+                      {/* <Balancer> */}
+                      {page._title}
+                      {/* </Balancer> */}
+                    </h1>
+                    <p className='leading-7 [&:not(:first-child)]:mt-6'>
+                      {/* <Balancer> */}
+                      {page.description}
+                      {/* </Balancer> */}
+                    </p>
+                    {page.image ? (
+                      <Image
+                        src={page.image.url}
+                        width={page.image.width}
+                        height={page.image.height}
+                        alt={page.image.alt ?? ''}
+                        className='my-16 h-full w-full rounded-xl'
+                        priority
+                      />
+                    ) : undefined}
+                    <div className='mx-auto max-w-prose'>
+                      <Body
+                        content={page.body.json.content}
+                        components={{
+                          pre: ({ code, language }) => {
+                            return (
+                              <CodeBlock
+                                theme='vesper'
+                                snippets={[{ code, language }]}
+                              />
+                            );
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className='sticky top-24 hidden shrink-0 md:block'>
+                  {/* <Sidebar
+                    toc={<TableOfContents data={page.body.json.toc} />}
+                    readingTime={`${page.body.readingTime} min read`}
+                    date={new Date(page.date)}
+                  /> */}
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      }}
+    </Feed>
   );
 };
 
