@@ -58,9 +58,6 @@ export const generateStaticParams = async (): Promise<{ slug: string }[]> => {
 const BlogPost = async ({ params }: BlogPostProperties) => {
   const { slug } = await params;
   const draft = await draftMode();
-  const posts = await blog.getPosts();
-  const postslugs = posts.map((post) => post._slug);
-  console.log('from slug page', postslugs);
 
   return (
     <Feed queries={[blog.postQuery(slug)]} draft={draft.isEnabled}>

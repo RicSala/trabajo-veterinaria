@@ -52,6 +52,8 @@ const postFragment = fragmentOn('PostsItem', {
           bgColor: {
             hex: true,
           },
+          _id: true,
+          __typename: true,
         },
       },
     },
