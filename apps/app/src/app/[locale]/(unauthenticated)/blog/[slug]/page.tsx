@@ -137,7 +137,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                           },
                           CalloutComponent: ({ title, bgColor }) => {
                             return (
-                              <div className={`bg-${bgColor}`}>
+                              <div className={`bg-${bgColor.hex}`}>
                                 here: {title?.plainText}
                               </div>
                             );
