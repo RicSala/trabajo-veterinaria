@@ -127,6 +127,7 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                     ) : undefined}
                     <div className='mx-auto max-w-prose'>
                       <Body
+                        blocks={page.body.json.blocks}
                         content={page.body.json.content}
                         components={{
                           pre: ({ code, language }) => {
@@ -135,6 +136,13 @@ const BlogPost = async ({ params }: BlogPostProperties) => {
                                 theme='vesper'
                                 snippets={[{ code, language }]}
                               />
+                            );
+                          },
+                          CalloutComponent: ({ title, bgColor }) => {
+                            return (
+                              <div className={`bg-${bgColor}`}>
+                                here: {title?.plainText}
+                              </div>
                             );
                           },
                         }}

@@ -4,6 +4,7 @@
   "packageManager": "pnpm@10.6.2",
   "private": true,
   "scripts": {
+    "shadcn": "pushd packages/design-system && pnpm dlx shadcn@latest add",
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "next lint",

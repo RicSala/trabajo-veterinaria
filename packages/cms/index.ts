@@ -44,6 +44,16 @@ const postFragment = fragmentOn('PostsItem', {
     json: {
       content: true,
       toc: true,
+      blocks: {
+        on_CalloutComponent: {
+          title: {
+            plainText: true,
+          },
+          bgColor: {
+            hex: true,
+          },
+        },
+      },
     },
     readingTime: true,
   },
